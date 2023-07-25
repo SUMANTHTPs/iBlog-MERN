@@ -11,7 +11,7 @@ const EditPost = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    fetch("http://localhost:4000/post/" + id).then((response) => {
+    fetch("http://localhost:4000/blogs/post/" + id).then((response) => {
       response.json().then((postItem) => {
         setTitle(postItem.title);
         setContent(postItem.content);
@@ -31,7 +31,7 @@ const EditPost = () => {
     if (files?.[0]) {
       data.set("file", files?.[0]);
     }
-    const response = await fetch("http://localhost:4000/post", {
+    const response = await fetch("http://localhost:4000/blogs/post", {
       method: "PUT",
       body: data,
       credentials: "include",

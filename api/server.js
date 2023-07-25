@@ -22,7 +22,7 @@ app.use(cookieParser());
 
 
 app.use('/auth', require('./routes/auth'))
-// app.use('/blogs', require('./routes/blog'))
+app.use('/blogs', require('./routes/blog'))
 
 app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
   const { originalname, path } = req.file;

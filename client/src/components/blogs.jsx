@@ -6,7 +6,7 @@ const Blogs = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:4000/post")
+    fetch("http://localhost:4000/blogs/post")
       .then((response) => response.json())
       .then((posts) => {
         setPosts(posts);

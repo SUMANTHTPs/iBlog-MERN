@@ -13,7 +13,7 @@ const PostDetail = () => {
   useEffect(() => {
     const fetchPostDetail = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/post/${id}`, {
+        const response = await fetch(`http://localhost:4000/blogs/post/${id}`, {
           method: "GET",
           credentials: "include",
         });
