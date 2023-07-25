@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const mongoose = require('mongoose');
 const User = require('./models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -10,7 +9,9 @@ const multer = require('multer');
 const uploadMiddleware = multer({ dest: 'uploads/' });
 const fs = require('fs');
 const Post = require('./models/posts');
+const connectToMongoDB = require('./db');
 
+connectToMongoDB();
 const saltRounds = 10;
 const secret = 'Louda#Louda';
 
@@ -19,17 +20,6 @@ app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(express.json());
 app.use(cookieParser());
 
-mongoose
-  .connect('mongodb+srv://sumanthTP:SMLZTX8TVzxMSj7w@cluster0.e4jo1hh.mongodb.net/?retryWrites=true&w=majority', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log('Connected to MongoDB');
-  })
-  .catch((err) => {
-    console.error('MongoDB connection error:', err);
-  });
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
