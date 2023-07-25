@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Editor from "../components/Editor";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const NewPost = () => {
   const [title, setTitle] = useState("");
