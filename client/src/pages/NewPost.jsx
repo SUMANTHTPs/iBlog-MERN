@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Editor from "../components/Editor";
 import { useNavigate, useParams } from "react-router-dom";
 
 const NewPost = () => {
-  const { id } = useParams();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [summary, setSummary] = useState("");
