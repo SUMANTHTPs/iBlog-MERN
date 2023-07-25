@@ -232,7 +232,7 @@ a, h2, button {
 .quill {
   margin-bottom: 10px;
 }
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .posts-container {
     flex-direction: column;
   }
