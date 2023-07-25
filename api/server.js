@@ -21,59 +21,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 
-app.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    const userDoc = await User.findOne({ email });
-    if (!userDoc || !bcrypt.compareSync(password, userDoc.password)) {
-      return res.status(400).json('Invalid credentials');
-    }
-
-    const token = jwt.sign(
-      { username: userDoc.username, id: userDoc._id },
-      secret,
-      {}
-    );
-
-    res.cookie('token', token).json('ok');
-  } catch (error) {
-    console.error(error);
-    res.status(500).json('Server error');
-  }
-});
-
-app.post("/register", async (req, res) => {
-  const { username, email, password } = req.body;
-
-  try {
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-    const userDoc = await User.create({
-      username,
-      email,
-      password: hashedPassword,
-    });
-    res.json(userDoc);
-  } catch (e) {
-    res.status(400).json({ error: e });
-  }
-});
-
-app.get('/profile', async (req, res) => {
-  const { token } = req.cookies;
-
-  try {
-    const decodedToken = await jwt.verify(token, secret);
-    res.json(decodedToken);
-  } catch (error) {
-    console.error('Verification Error:', error);
-    res.status(401).json({ message: 'Unauthorized' });
-  }
-});
-
-app.post("/logout", (req, res) => {
-  res.clearCookie('token').json('ok');
-});
+app.use('/auth', require('./routes/auth'))
+// app.use('/blogs', require('./routes/blog'))
 
 app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
   const { originalname, path } = req.file;
@@ -148,9 +97,5 @@ app.get('/post/:id', async (req, res) => {
 
 app.listen(4000, () => {
   console.log('Running server');
-});
-
-process.on('unhandledRejection', (err) => {
-  console.error('Unhandled Promise Rejection:', err);
 });
 

@@ -10,7 +10,7 @@ const SignUp = () => {
 
   const register = async (ev) => {
     ev.preventDefault();
-    await fetch("http://localhost:4000/register", {
+    await fetch("http://localhost:4000/auth/register", {
       method: "POST",
       body: JSON.stringify({ username, email, password }),
       headers: { "Content-Type": "application/json" },
