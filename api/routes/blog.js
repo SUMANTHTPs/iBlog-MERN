@@ -1,13 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const multer = require('multer');
-// const uploadMiddleware = multer({ dest: 'uploads/' });
-const fs = require('fs');
 const Post = require('../models/posts');
 const cloudinary = require('cloudinary').v2;
 
-const saltRounds = 10;
 const secret = 'Louda#Louda';
 cloudinary.config({
     cloud_name: 'do3pfvs5g',
