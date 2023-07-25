@@ -2,36 +2,41 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
-const uploadMiddleware = multer({ dest: 'uploads/' });
+// const uploadMiddleware = multer({ dest: 'uploads/' });
 const fs = require('fs');
 const Post = require('../models/posts');
+const cloudinary = require('cloudinary').v2;
 
 const saltRounds = 10;
 const secret = 'Louda#Louda';
+cloudinary.config({
+    cloud_name: 'do3pfvs5g',
+    api_key: '337455988461172',
+    api_secret: 'XNB5xCFDsN_zwzaCtVCupgrexh4'
+});
 
 
-
-router.post('/post', uploadMiddleware.single('file'), async (req, res) => {
-    const { originalname, path } = req.file;
-    const parts = originalname.split('.');
-    const ext = parts[parts.length - 1];
-    const newPath = path + '.' + ext;
-    fs.renameSync(path, newPath);
-
+router.post('/post', async (req, res) => {
+    const { tempFilePath } = req.files.file;
     const { token } = req.cookies;
+    let information = null;
     jwt.verify(token, secret, {}, async (err, info) => {
         if (err) throw err;
+        information = info;
+    });
+
+    cloudinary.uploader.upload(tempFilePath, async (err, result) => {
+        console.log(result);
         const { title, summary, content } = req.body;
         const postDoc = await Post.create({
             title,
             summary,
             content,
-            cover: newPath,
-            author: info.id,
+            cover: result.url,
+            author: information.id,
         });
         res.json(postDoc);
-    });
-
+    })
 });
 
 router.get('/post', async (req, res) => {
@@ -43,14 +48,17 @@ router.get('/post', async (req, res) => {
     );
 });
 
-router.put("/post", uploadMiddleware.single('file'), async (req, res) => {
-    let newPath = null;
-    if (req.file) {
-        const { originalname, path } = req.file;
-        const parts = originalname.split(".");
-        const ext = parts[parts.length - 1];
-        newPath = path + '.' + ext;
-        fs.renameSync(path, newPath);
+router.put("/post", async (req, res) => {
+    let newPath = '';
+    if (req.files && req.files.file) {
+        const { tempFilePath } = req.files.file;
+        try {
+            const result = await cloudinary.uploader.upload(tempFilePath);
+            newPath = result.url;
+        } catch (err) {
+            console.error('Error uploading image:', err);
+            return res.status(500).json('Unable to upload image');
+        }
     }
 
     const { token } = req.cookies;
@@ -70,7 +78,8 @@ router.put("/post", uploadMiddleware.single('file'), async (req, res) => {
         });
         res.json(postDoc);
     });
-})
+});
+
 
 /**
  * populate is used for ref attributes. It will fetch linked auther <--> user details instead of id. 

@@ -33,7 +33,7 @@ const Blogs = () => {
                 <Link to={`/post/${_id}`}>
                   <img
                     className="post-img"
-                    src={"http://localhost:4000/" + cover}
+                    src={cover}
                     alt="post-img"
                   />
                 </Link>

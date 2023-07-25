@@ -53,7 +53,7 @@ const PostDetail = () => {
             <div className="postpage-image-container">
               <img
                 className="postpage-image"
-                src={`http://localhost:4000/${postItem.cover}`}
+                src={postItem.cover}
                 alt=""
               />
             </div>
