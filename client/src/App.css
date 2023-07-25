@@ -1,0 +1,274 @@
+@import url("https://fonts.googleapis.com/css2?family=McLaren&family=Montserrat:wght@400&display=swap");
+
+* {
+  box-sizing: border-box;
+  background-color: #f1f6f9;
+  color: #393646;
+  font-family: "Montserrat", sans-serif;
+  scrollbar-width: none;
+}
+
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background-color: transparent;
+}
+
+/* Hide scrollbar thumb for WebKit-based browsers */
+body::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+/* Hide scrollbar track for WebKit-based browsers */
+body::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+a, h2, button {
+  text-decoration: none;
+  cursor: pointer;
+}
+.nav-logo {
+  width: 150px;
+  height: 70px;
+  cursor: pointer;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 5%;
+}
+
+.register-links {
+  text-decoration: none;
+  color: inherit;
+  padding: 1rem;
+}
+
+.main {
+  padding: 10px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.register-links:hover {
+  background-color: white;
+  border-radius: 1em;
+}
+
+.posts-container {
+  display: flex;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.post-img {
+  display: flex;
+  margin: auto;
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+  margin-right: 20px;
+  border-radius: 4px;
+}
+
+.post-content {
+  flex-grow: 1;
+}
+
+.post-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.post-desc {
+  margin-top: 5px;
+}
+
+.time {
+  color: #355;
+}
+
+.posts-container,
+.nav-logo {
+  border-radius: 0.7em;
+}
+
+.info {
+  font-style: italic;
+  color: #888;
+  margin-top: 5px;
+}
+
+.info a {
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+.btn-container {
+  position: relative;
+}
+
+.create-post-button {
+  position: fixed;
+  text-decoration: none;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+  background-color: #576cbc;
+  color: #ffffff;
+  border-radius: 2px;
+  padding: 10px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  margin: auto;
+  margin-top: 50px;
+  justify-content: center;
+}
+
+.login-brand {
+  margin: auto;
+  display: flex;
+  width: 16em;
+  height: 7em;
+  border-radius: 0.6em;
+  cursor: pointer;
+}
+
+.login-form input {
+  padding: 10px;
+  margin-bottom: 2rem;
+  border: none;
+  border-bottom: 1px solid black;
+  background-color: inherit;
+}
+
+.login-form input:focus {
+  outline: none;
+  color: inherit;
+  background-color: inherit;
+}
+
+.login-form button {
+  padding: 1em;
+  margin-bottom: 1em;
+  width: 50%;
+  justify-content: center;
+  background-color: #ff2171;
+  color: #ffffff;
+  border-radius: 2em;
+  border-color: #ccc;
+}
+
+.login-form a {
+  text-decoration: none;
+}
+
+.login-form .footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.create-form {
+  width: 90%;
+}
+
+.edit-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0.6em 0;
+  text-decoration: none;
+  padding: 0.7em;
+  border-radius: 0.5em;
+  border-color: #393646;
+  border-width: 2px;
+  border-style: solid;
+}
+
+.edit-btn:hover {
+  font-weight: bold;
+}
+
+.postpage-image {
+  width: 75%;
+  max-height: 350px;
+  margin: 10px auto;
+  /* padding: 1em; */
+}
+
+.edit-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  gap: 0.5em;
+}
+
+.post-detail-header, .login-form h2, .postpage-image-container {
+  text-align: center;
+}
+
+.post-detail-header h2,
+.post-detail-header .info,
+.post-detail-header p {
+  margin: 0;
+  padding: 10px
+}
+
+.post-details-container .content {
+  line-height: 2em;
+}
+
+.quill {
+  margin-bottom: 10px;
+}
+@media (max-width: 600px) {
+  .posts-container {
+    flex-direction: column;
+  }
+
+  .post-img {
+    width: 100%;
+    height: auto;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .create-post-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+  }
+
+  .register-links {
+    text-decoration: none;
+    color: inherit;
+    padding: 0.6rem;
+  }
+
+  .create-form {
+    width: 90%;
+  }
+
+  .postpage-image {
+    width: 100%;
+    max-height: 500px;
+    padding: 1em 0;
+  }
+}

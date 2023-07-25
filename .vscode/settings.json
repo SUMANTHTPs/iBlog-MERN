@@ -1,0 +1,5 @@
+{
+    "eslint.useESLintClass": true,
+    "eslint.onIgnoredFiles": "warn",
+    "eslint.format.enable": true
+}
