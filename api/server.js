@@ -4,10 +4,11 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const connectToMongoDB = require('./db');
 const fileUpload = require('express-fileupload');
+require('dotenv').config();
 
 connectToMongoDB();
-
-app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
+const corsOrigin = `${process.env.CORS_ORIGIN}`
+app.use(cors({ credentials: true, origin: corsOrigin }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(fileUpload({

@@ -3,12 +3,13 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const Post = require('../models/posts');
 const cloudinary = require('cloudinary').v2;
+require('dotenv').config();
 
-const secret = 'Louda#Louda';
+const secret = process.env.APP_JWT_SECRET;
 cloudinary.config({
-    cloud_name: 'do3pfvs5g',
-    api_key: '337455988461172',
-    api_secret: 'XNB5xCFDsN_zwzaCtVCupgrexh4'
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_API_KEY,
+    api_secret: process.env.CLOUD_API_SECRET
 });
 
 

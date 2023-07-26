@@ -3,9 +3,10 @@ const router = express.Router();
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const saltRounds = 10;
-const secret = 'Louda#Louda';
+const secret = process.env.APP_JWT_SECRET;
 
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
