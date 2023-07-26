@@ -23,7 +23,6 @@ router.post('/post', async (req, res) => {
     });
 
     cloudinary.uploader.upload(tempFilePath, async (err, result) => {
-        console.log(result);
         const { title, summary, content } = req.body;
         const postDoc = await Post.create({
             title,
@@ -37,13 +36,36 @@ router.post('/post', async (req, res) => {
 });
 
 router.get('/post', async (req, res) => {
-    res.json(
-        await Post.find()
-            .populate('author', ['username'])
-            .sort({ createdAt: -1 })
-            .limit(20)
-    );
+    const page = parseInt(req.query.page) || 1;
+    const perPage = parseInt(req.query.perPage) || 20;
+
+    try {
+        const [totalPosts, posts] = await Promise.all([
+            Post.countDocuments(),
+            Post.find()
+                .populate('author', ['username'])
+                .sort({ createdAt: -1 })
+                .skip((page - 1) * perPage)
+                .limit(perPage),
+        ]);
+
+        if (page < 1 || page > Math.ceil(totalPosts / perPage)) {
+            return res.status(400).json({ error: 'Invalid page number' });
+        }
+
+        const totalPages = Math.ceil(totalPosts / perPage);
+
+        res.json({
+            totalPages,
+            currentPage: page,
+            posts,
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'An error occurred while fetching posts.' });
+    }
 });
+
 
 router.put("/post", async (req, res) => {
     let newPath = '';
