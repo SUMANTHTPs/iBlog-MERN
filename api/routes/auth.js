@@ -10,6 +10,7 @@ const secret = process.env.APP_JWT_SECRET;
 
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
+    let success = false;
     try {
         const userDoc = await User.findOne({ email });
         if (!userDoc || !bcrypt.compareSync(password, userDoc.password)) {
@@ -21,8 +22,10 @@ router.post("/login", async (req, res) => {
             secret,
             {}
         );
-
-        res.cookie('token', token).json('ok');
+        if (token) {
+            success = true;
+        }
+        res.cookie('token', token).json({ ok: success, token: token });
     } catch (error) {
         console.error(error);
         res.status(500).json('Server error');
@@ -49,16 +52,19 @@ router.post("/register", async (req, res) => {
     }
 });
 
-router.get('/profile', async (req, res) => {
+router.get('/profile', (req, res) => {
     const { token } = req.cookies;
 
-    try {
-        const decodedToken = await jwt.verify(token, secret);
-        res.json(decodedToken);
-    } catch (error) {
-        console.error('Verification Error:', error);
-        res.status(401).json({ message: 'Unauthorized' });
-    }
+    console.log('token ' + token);
+    console.log('secret ' + secret);
+
+    jwt.verify(token, secret, {}, (err, info) => {
+        if (err) {
+            console.error('Verification Error:', err);
+            res.status(401).json({ message: 'Unauthorized' });
+        }
+        res.json(info);
+    });
 });
 
 router.post("/logout", (req, res) => {

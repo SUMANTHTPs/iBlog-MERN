@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Editor from "../components/Editor";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../components/Spinner";
 
 const NewPost = () => {
   const [title, setTitle] = useState("");
@@ -8,6 +9,7 @@ const NewPost = () => {
   const [summary, setSummary] = useState("");
   const [files, setFiles] = useState("");
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (ev) => {
     const data = new FormData();
@@ -16,15 +18,21 @@ const NewPost = () => {
     data.set("content", content);
     data.set("file", files[0]);
     ev.preventDefault();
+    setIsLoading(true);
     const response = await fetch("http://localhost:4000/blogs/post", {
       method: "POST",
       body: data,
       credentials: "include",
     });
+    setIsLoading(false);
     if (response.ok) {
       navigate("/");
     }
   };
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <div>

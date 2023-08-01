@@ -232,6 +232,20 @@ a, h2, button {
 .quill {
   margin-bottom: 10px;
 }
+
+.load-spinner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto; /* Center the element both horizontally and vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  /* Add any other styling for your spinner */
+}
 @media (max-width: 900px) {
   .posts-container {
     flex-direction: column;

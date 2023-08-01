@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
-import { AiOutlineLogout} from 'react-icons/ai';
+import { AiOutlineLogout } from "react-icons/ai";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -11,6 +11,9 @@ const Navbar = () => {
   useEffect(() => {
     fetch("http://localhost:4000/auth/profile", {
       credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
     }).then((response) => {
       response.json().then((userInfo) => {
         setUserInfo(userInfo);
@@ -29,9 +32,9 @@ const Navbar = () => {
     //   method: "POST",
     // });
     setUserInfo(null);
-    navigate('/login');
+    navigate("/login");
   };
-  
+
   const username = userInfo?.username;
   return (
     <div>
@@ -52,7 +55,11 @@ const Navbar = () => {
               <Link className="register-links" to="/">
                 {username}
               </Link>
-              <button style={{border:'none'}} className="register-links" onClick={logout}>
+              <button
+                style={{ border: "none" }}
+                className="register-links"
+                onClick={logout}
+              >
                 <AiOutlineLogout />
               </button>
             </>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Editor from "../components/Editor";
+import Spinner from "../components/Spinner";
 
 const EditPost = () => {
   const [title, setTitle] = useState("");
@@ -9,8 +10,10 @@ const EditPost = () => {
   const [files, setFiles] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch("http://localhost:4000/blogs/post/" + id).then((response) => {
       response.json().then((postItem) => {
         setTitle(postItem.title);
@@ -18,6 +21,7 @@ const EditPost = () => {
         setSummary(postItem.summary);
       });
     });
+    setIsLoading(false);
   }, [id]);
 
   const updatePost = async (ev) => {
@@ -31,15 +35,21 @@ const EditPost = () => {
     if (files?.[0]) {
       data.set("file", files?.[0]);
     }
+    setIsLoading(true);
     const response = await fetch("http://localhost:4000/blogs/post", {
       method: "PUT",
       body: data,
       credentials: "include",
     });
+    setIsLoading(false);
     if (response.ok) {
       navigate(`/post/${id}`);
     }
   };
+
+  if (isLoading) {
+    return <Spinner />;
+  }
   return (
     <div>
       <form className="login-form create-form" onSubmit={updatePost}>

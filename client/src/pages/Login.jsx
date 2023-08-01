@@ -1,27 +1,37 @@
 import React, { useState } from "react";
 import logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
+import Spinner from "../components/Spinner";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const login = async (ev) => {
     ev.preventDefault();
+    setIsLoading(true);
     const response = await fetch("http://localhost:4000/auth/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
       headers: { "Content-Type": "application/json" },
       credentials: "include",
     });
+    setIsLoading(false);
 
-    if (response.ok){
+    if (response.ok) {
+      const data = await response.json();
       navigate("/");
     } else {
-      alert('Wrong credentials');
+      alert("Wrong credentials");
     }
   };
+
+  if(isLoading) {
+    return <Spinner/>
+  }
+
   return (
     <div>
       <img

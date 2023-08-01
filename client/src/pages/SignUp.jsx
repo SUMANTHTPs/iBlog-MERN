@@ -1,22 +1,34 @@
 import React, { useState } from "react";
 import logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
+import Spinner from "../components/Spinner";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const register = async (ev) => {
     ev.preventDefault();
-    await fetch("http://localhost:4000/auth/register", {
+    setIsLoading(true);
+    const res = await fetch("http://localhost:4000/auth/register", {
       method: "POST",
       body: JSON.stringify({ username, email, password }),
       headers: { "Content-Type": "application/json" },
       credentials: "include",
     });
+    setIsLoading(false);
+
+    if (res) {
+      navigate("/");
+    }
   };
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <div>
@@ -37,7 +49,7 @@ const SignUp = () => {
           placeholder="Enter your awesome name"
           autoFocus={true}
           value={username}
-          onChange={(ev)=> setUsername(ev.target.value)}
+          onChange={(ev) => setUsername(ev.target.value)}
           required
         />
         <input
@@ -46,7 +58,7 @@ const SignUp = () => {
           id="email"
           placeholder="Enter the Email"
           value={email}
-          onChange={(ev)=> setEmail(ev.target.value)}
+          onChange={(ev) => setEmail(ev.target.value)}
           required
         />
         <input
@@ -55,7 +67,7 @@ const SignUp = () => {
           id="password"
           placeholder="Enter the password"
           value={password}
-          onChange={ev=> setPassword(ev.target.value)}
+          onChange={(ev) => setPassword(ev.target.value)}
           required
         />
         <div className="footer">
