@@ -9,6 +9,18 @@ const Login = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
+  function setToken(value, days) {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+    document.cookie =
+      "token" +
+      "=" +
+      encodeURIComponent(value) +
+      ";expires=" +
+      expires.toUTCString() +
+      ";path=/";
+  }
+
   const login = async (ev) => {
     ev.preventDefault();
     setIsLoading(true);
@@ -23,6 +35,8 @@ const Login = () => {
     if (response.ok) {
       const data = await response.json();
       navigate("/");
+      const token = data.token;
+      setToken(token, 1);
     } else {
       alert("Wrong credentials");
     }

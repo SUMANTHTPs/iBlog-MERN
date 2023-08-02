@@ -30,7 +30,7 @@ const Blogs = () => {
         <Spinner />
       ) : (
         <div>
-          {posts.map((post) => {
+          {posts?.map((post) => {
             const { _id, title, summary, cover, createdAt, author } = post;
             const createdAtDate = new Date(createdAt);
             return (
